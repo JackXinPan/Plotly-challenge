@@ -282,7 +282,7 @@ function optionChanged() {
         .text(`${metadataKeys[6]} : ${metadataValues[6]}`);
 
 
-    // delete previous metadata
+ 
             
 
 
@@ -311,7 +311,7 @@ function optionChanged() {
     //     return p;
     // });
 
-    app.append(nodes);
+    // app.append(nodes);
 };
 
 
