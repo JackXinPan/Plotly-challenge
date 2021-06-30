@@ -52,7 +52,8 @@ function init() {
     var topLabels = otu_labels[0].slice(0,10).reverse();
     console.log(topLabels);
 
-// Create a horizontal bar chart
+// **************************Create a horizontal bar chart********************
+//**************************************************************************** */
     var trace1 = {
         x: topSamples,
         y: topIds,
@@ -78,7 +79,8 @@ function init() {
     }
     Plotly.newPlot("bar",newdata, layout)
 
-
+// **************************Create a bubble plot********************
+//**************************************************************************** */
     var trace1 = {
         x: otu_ids[0],
         y: sample_values[0],
@@ -114,23 +116,72 @@ function init() {
     //applied filter to match IDs from dropdown menu
     var metadata = data.metadata.filter(subjectID);
     console.log(metadata)
+    //grab object entries from metadata 
+    var metadataKeys = Object.keys(metadata[0])
+    console.log(metadataKeys)
+    var metadataValues = Object.values(metadata[0])
+    // for loop to add metadata on screen
+        
+    for (var j = 0; j < metadataKeys.length; j++) {
+        d3.select("#sample-metadata")
+            .append("p")
+            .attr("id", "metadata")
+            .append("b")
+            .text(`${metadataKeys[j]} : ${metadataValues[j]}`)
+      }
 
-    d3.select("#sample-metadata")
-        .text(`id : ${metadata.map(value => value.id)}`)
-        .append("p")
-        .text(`ethnicity : ${metadata.map(value => value.ethnicity)}`)
-        .append("p")
-        .text(`gender : ${metadata.map(value => value.gender)}`)
-        .append("p")
-        .text(`age : ${metadata.map(value => value.age)}`)
-        .append("p")
-        .text(`location : ${metadata.map(value => value.location)}`)
-        .append("p")
-        .text(`bbtype : ${metadata.map(value => value.bbtype)}`)
-        .append("p")
-        .text(`wfreq : ${metadata.map(value => value.wfreq)}`);
-    });
-};
+//*****************************Gauge Chart******** */
+//******************************************************* */
+
+// get variables for washing frequency
+var wfreq = metadata[0].wfreq
+console.log(wfreq)
+
+var newdata = [
+  {
+      domain: { x: [0, 1], y: [0, 1] },
+      value: wfreq,
+      title: { text: "Speed" },
+      type: "indicator",
+      mode: "gauge",
+      gauge: {
+          axis: {
+              range: [null, 9],
+              tickwidth: 1,
+              tickmode: "linear",
+              tickcolor: "black",
+          },
+          bar: { color: "darkblue" },
+          steps: [
+              { range: [0, 1], color: "#e1d0d0" },
+              { range: [1, 2], color: "#ebc8c3" },
+              { range: [2, 3], color: "#f3c0ac" },
+              { range: [3, 4], color: "#f2bb92" },
+              { range: [4, 5], color: "#e8ba77" },
+              { range: [5, 6], color: "#d4bc5d" },
+              { range: [6, 7], color: "#b5c04a" },
+              { range: [7, 8], color: "#8ac442" },
+              { range: [8, 9], color: "#46c74b" },
+          ],
+          threshold: {
+              line: { color: "red", width: 7 },
+              thickness: 0.75,
+              value: wfreq
+          }
+      }
+  }
+
+];
+
+  var layout = { width: 600, height: 500, margin: { t: 0, b: 0 } };
+
+  Plotly.newPlot("gauge", newdata, layout);
+
+
+
+    })
+};   
+
 
 
 // create a dynamic dropdown menu for each subject
@@ -263,55 +314,72 @@ function optionChanged() {
     console.log(metadataKeys)
     var metadataValues = Object.values(metadata[0])
     console.log(metadataValues)
-    var metadataEntries = Object.entries(metadata[0])
-    console.log(metadataEntries)
+
+
     //appending paragraphs to fill with metadata
-    d3.select("#sample-metadata")
-        .text(`${metadataKeys[0]} : ${menuId}`)
-        .append("p")
-        .text(`${metadataKeys[1]} : ${metadataValues[1]}`)
-        .append("p")
-        .text(`${metadataKeys[2]} : ${metadataValues[2]}`)
-        .append("p")
-        .text(`${metadataKeys[3]} : ${metadataValues[3]}`)
-        .append("p")
-        .text(`${metadataKeys[4]} : ${metadataValues[4]}`)
-        .append("p")
-        .text(`${metadataKeys[5]} : ${metadataValues[5]}`)
-        .append("p")
-        .text(`${metadataKeys[6]} : ${metadataValues[6]}`);
+    //html("") clears existing metadata
+    d3.select("#sample-metadata").html("")
 
-
- 
-            
-
-
-    // var el = document.getElementById('metadata');
-    // console.log(el)
-    // el.remove();
 
     // for loop to add metadata on screen
         
-    // for (var j = 0; j < metadataKeys.length; j++) {
-    //     d3.select("#sample-metadata")
-    //         .append("p")
-    //         .attr("id", "metadata")
-    //         .append("b")
-    //         .text(`${metadataKeys[j]} : ${metadataValues[j]}`)
-    //   }   
+    for (var j = 0; j < metadataKeys.length; j++) {
+        d3.select("#sample-metadata")
+            .append("p")
+            .attr("id", "metadata")
+            .append("b")
+            .text(`${metadataKeys[j]} : ${metadataValues[j]}`)
+      }   
+//*****************************Gauge Chart******** */
+//******************************************************* */
+      // get variables for washing frequency
+      var wfreq = metadata[0].wfreq
+      console.log(wfreq)
+      //create gauge data
+      var newdata = [
+        {
+            domain: { x: [0, 1], y: [0, 1] },
+            value: wfreq,
+            title: { text: "Speed" },
+            type: "indicator",
+            mode: "gauge",
+            gauge: {
+                axis: {
+                    range: [null, 9],
+                    tickwidth: 1,
+                    tickmode: "linear",
+                    tickcolor: "black",
+                },
+                bar: { color: "darkblue" },
+                steps: [
+                    { range: [0, 1], color: "#e1d0d0" },
+                    { range: [1, 2], color: "#ebc8c3" },
+                    { range: [2, 3], color: "#f3c0ac" },
+                    { range: [3, 4], color: "#f2bb92" },
+                    { range: [4, 5], color: "#e8ba77" },
+                    { range: [5, 6], color: "#d4bc5d" },
+                    { range: [6, 7], color: "#b5c04a" },
+                    { range: [7, 8], color: "#8ac442" },
+                    { range: [8, 9], color: "#46c74b" },
+                ],
+                threshold: {
+                    line: { color: "red", width: 7 },
+                    thickness: 0.75,
+                    value: wfreq
+                }
+            }
+        }
+    
+    ];
+        //layout for gauge
+        var layout = { width: 600, height: 500, margin: { t: 0, b: 0 } };
+
+        Plotly.newPlot("gauge", newdata, layout);
+
+
 
     });
 
-
-    // let app = document.querySelector('#sample-metadata');
-
-    // let nodes = metadataKeys.map(metadataKeys => {
-    //     let p = document.createElement('p');
-    //     p.textContent = metadataKeys;
-    //     return p;
-    // });
-
-    // app.append(nodes);
 };
 
 
