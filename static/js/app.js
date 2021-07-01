@@ -68,7 +68,7 @@ function init() {
     var layout = {
         title: `Top 10 OTUs For Subject ${samples.map(value => value.id)[0]}`,
         yaxis:{
-            tickmode:"linear",
+            tickmode:"linear",  
         },
         margin: {
             l: 100,
@@ -141,7 +141,7 @@ var newdata = [
   {
       domain: { x: [0, 1], y: [0, 1] },
       value: wfreq,
-      title: { text: "Speed" },
+      title: { text: "Belly Button Washing Frequency" },
       type: "indicator",
       mode: "gauge",
       gauge: {
@@ -164,7 +164,7 @@ var newdata = [
               { range: [8, 9], color: "#46c74b" },
           ],
           threshold: {
-              line: { color: "red", width: 7 },
+              line: { color: "black", width: 7 },
               thickness: 0.75,
               value: wfreq
           }
@@ -225,6 +225,7 @@ function optionChanged() {
     console.log(samples)
 // Use sample_values as the values for charts.
     var sample_values = samples.map(value => value.sample_values)
+    
     //Top 10 values
     var topSamples = sample_values[0].slice(0,10).reverse();    
     console.log(topSamples);
@@ -340,7 +341,7 @@ function optionChanged() {
         {
             domain: { x: [0, 1], y: [0, 1] },
             value: wfreq,
-            title: { text: "Speed" },
+            title: { text: "Belly Button Washing Frequency" },
             type: "indicator",
             mode: "gauge",
             gauge: {
@@ -350,7 +351,7 @@ function optionChanged() {
                     tickmode: "linear",
                     tickcolor: "black",
                 },
-                bar: { color: "darkblue" },
+                bar: { color: "blue" },
                 steps: [
                     { range: [0, 1], color: "#e1d0d0" },
                     { range: [1, 2], color: "#ebc8c3" },
@@ -363,7 +364,7 @@ function optionChanged() {
                     { range: [8, 9], color: "#46c74b" },
                 ],
                 threshold: {
-                    line: { color: "red", width: 7 },
+                    line: { color: "black", width: 7 },
                     thickness: 0.75,
                     value: wfreq
                 }
@@ -376,9 +377,7 @@ function optionChanged() {
 
         Plotly.newPlot("gauge", newdata, layout);
 
-
-
-    });
+    })
 
 };
 
